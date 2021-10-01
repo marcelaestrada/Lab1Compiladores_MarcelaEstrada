@@ -213,7 +213,7 @@ namespace Lab1Compis_MarcelaEstrada
                 }
                 else
                 {
-                    throw new Exception("Lex error");
+                    throw new Exception("Syntax error");
                 }
                 
             }
