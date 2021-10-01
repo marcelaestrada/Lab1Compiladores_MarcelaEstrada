@@ -8,104 +8,107 @@ namespace Lab1Compis_MarcelaEstrada
     {
         Scanner _scanner;
         Token _token;
+        int resultado = 0;
+        string numero = "";
 
-        private void E()
+        private int E()
         {
             switch (_token.Tag)
             {
                 case TokenType.LParen:
                 case TokenType.Symbol:
+                    return T() + EP();
+
                 case TokenType.Substract:
-                    T();
-                    EP();
-                    break;
+                    return -EP()+T();
 
                 default:
-                    break;
+                    return resultado;
             }
         }
 
-        private void EP()
+        private int EP()
         {
             switch (_token.Tag)
             {
                 case TokenType.Add:
                     Match(TokenType.Add);
-                    T();
-                    EP();
-                    break;
+                    return T() + EP();
 
                 case TokenType.Substract:
                     Match(TokenType.Substract);
-                    T();
-                    EP();
-                    break;
+                    return T() - EP();
 
                 default:
-                    break;
+                    return resultado;
             }
         }
 
-        private void T()
+        private int T()
         {
             switch (_token.Tag)
             {
                 case TokenType.LParen:
                 case TokenType.Symbol:
+                    int f = F();
+                    numero = "";
+                    int tp = TP();
+                    return f + tp;
+
                 case TokenType.Substract:
-                    F();
-                    TP();
-                    break;
+                    Match(TokenType.Substract);
+                    return F() - TP();
+                    //return -F() + TP();
 
                 default:
-                    break;
+                    return resultado;
             }
         }
 
-        private void TP()
+        private int TP()
         {
             switch (_token.Tag)
             {
                 case TokenType.Multiply:
                     Match(TokenType.Multiply);
-                    F();
-                    TP();
-                    break;
+                    return F() * TP();
 
                 case TokenType.Divide:
                     Match(TokenType.Divide);
-                    F();
-                    TP();
-                    break;
+                    return F() / TP();
 
                 default:
-                    break;
+                    return 0;
             }
         }
 
-        private void F()
+        private int F()
         {
             switch (_token.Tag)
             {
-                case TokenType.Substract:
-                    Match(TokenType.Substract);
-                    F();
-                    break;
+                //case TokenType.Substract:
+                //    Match(TokenType.Substract);
+                //    int value = Convert.ToInt32(Convert.ToString(_token.Value));
+                //    return F();
 
                 case TokenType.Symbol:
+                    int value2 = Convert.ToInt32(Convert.ToString(_token.Value));
+                    numero += value2;
                     Match(TokenType.Symbol);
                     F();
-                    break;
+                    value2 = Convert.ToInt32(numero);
+                    return value2;
 
                 case TokenType.LParen:
                     Match(TokenType.LParen);
-                    E();
+                    int e = E();
                     Match(TokenType.RParen);
-                    break;
+                    return e; 
 
                 default:
-                    break;
+                    return resultado;
             }
+            numero = "";
         }
 
         private void Match(TokenType tag)
@@ -120,7 +123,7 @@ namespace Lab1Compis_MarcelaEstrada
             }
         }
 
-        public void Parse(string regexp)
+        public int Parse(string regexp)
         {
             _scanner = new Scanner(regexp + (char)TokenType.EOF);
             _token = _scanner.GetToken();
@@ -128,13 +131,16 @@ namespace Lab1Compis_MarcelaEstrada
             {
                 case TokenType.LParen:
                 case TokenType.Symbol:
-                    E();
+                case TokenType.Substract:
+                    resultado = E();
                     break;
 
                 default:
                     break;
             }
             Match(TokenType.EOF);
+
+            return resultado;
         }
     }
 }
