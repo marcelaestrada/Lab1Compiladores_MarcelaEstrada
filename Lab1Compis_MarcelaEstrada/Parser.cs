@@ -49,7 +49,7 @@ namespace Lab1Compis_MarcelaEstrada
             }
         }
 
-        public int inverso()
+        public int inverso() //genera el inverso aditivo de un F
         {
             switch (_token.Tag)
             {

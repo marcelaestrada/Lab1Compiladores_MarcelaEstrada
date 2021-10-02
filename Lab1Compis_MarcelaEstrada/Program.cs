@@ -7,16 +7,25 @@ namespace Lab1Compis_MarcelaEstrada
     {
         static void Main(string[] args)
         {
-
-            Console.WriteLine("LABORATORIO 1\nIngrese la expresion algebraica que se desea resolver");
-            string regexp = Console.ReadLine();
-            Parser parser = new Parser();
-            int resultado = parser.Parse(regexp);
-            Console.Clear();
-            Console.WriteLine("Expresión sin errores");
-            Console.WriteLine(regexp + " = " + resultado);
-            Console.ReadLine();
-
+            bool programa = true;
+            while (programa) //se repite mientras el usuario no desee salir del programa
+            {
+                Console.Clear();
+                Console.WriteLine("LABORATORIO 1\nA continuación, ingrese la operación aritmética que desea resolver:");
+                string regexp = Console.ReadLine();
+                Parser parser = new Parser();
+                int resultado = parser.Parse(regexp);
+                Console.Clear();
+                Console.WriteLine("LABORATORIO 1\nOperación sin errores");
+                Console.WriteLine(regexp + " = " + resultado);
+                Console.ReadLine();
+                Console.WriteLine("\n¿Desea salir del programa? S/N");
+                string respuesta = Console.ReadLine();
+                if (respuesta.ToUpper() == "S")
+                {
+                    programa = false;
+                }
+            }
         }
     }
 }
