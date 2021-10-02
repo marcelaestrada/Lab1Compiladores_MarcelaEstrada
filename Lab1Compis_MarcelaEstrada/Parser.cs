@@ -161,7 +161,7 @@ namespace Lab1Compis_MarcelaEstrada
             }
             else
             {
-                throw new Exception("Error de sintaxis");
+                throw new Exception("Syntax error");
             }
         }
 

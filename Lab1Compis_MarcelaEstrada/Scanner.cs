@@ -26,35 +26,41 @@ namespace Lab1Compis_MarcelaEstrada
             bool tokenFound = false;
             while (!tokenFound)
             {
-                if(!(_regexp.Length == _index))
+                if(_regexp.Length != _index)
                 {
                     char peek = _regexp[_index];
                     switch (_state)
                     {
                         case 0:
-                            switch (peek)
+                            if (peek == '0' | peek == '1' | peek == '2' | peek == '3' | peek == '4' | peek == '5' | peek == '6' | peek == '7' | peek == '8' | peek == '9')
                             {
-                                case (char)TokenType.Substract:
-                                    tokenFound = true;
-                                    result.Tag = (TokenType)peek;
-                                    result.Value = peek;
-                                    _state = 1;
-                                    break;
+                                tokenFound = true;
+                                result.Tag = TokenType.Symbol;
+                                result.Value = peek;
+                                _state = 3;
+                            }
+                            else
+                            {
+                                switch (peek)
+                                {
+                                    case (char)TokenType.Substract:
+                                        tokenFound = true;
+                                        result.Tag = (TokenType)peek;
+                                        result.Value = peek;
+                                        _state = 1;
+                                        break;
 
-                                case (char)TokenType.LParen:
-                                    tokenFound = true;
-                                    result.Tag = (TokenType)peek;
-                                    result.Value = peek;
-                                    _state = 2;
-                                    banderaLParen++;
-                                    break;
+                                    case (char)TokenType.LParen:
+                                        tokenFound = true;
+                                        result.Tag = (TokenType)peek;
+                                        result.Value = peek;
+                                        _state = 2;
+                                        banderaLParen++;
+                                        break;
 
-                                default:
-                                    tokenFound = true;
-                                    result.Tag = TokenType.Symbol;
-                                    result.Value = peek;
-                                    _state = 3;
-                                    break;
+                                    default:
+                                        throw new Exception("Lex error");
+                                }
                             }
                             break;
 
@@ -145,6 +151,9 @@ namespace Lab1Compis_MarcelaEstrada
                                         _state = 3;
                                         banderaRParen++;
                                         break;
+
+                                    default:
+                                        throw new Exception("Lex error");
                                 }
                             }
                             break;
@@ -201,6 +210,9 @@ namespace Lab1Compis_MarcelaEstrada
                                         _state = 2;
                                         banderaLParen++;
                                         break;
+
+                                    default:
+                                        throw new Exception("Lex error");
                                 }
                             }
 
@@ -214,8 +226,7 @@ namespace Lab1Compis_MarcelaEstrada
                 else
                 {
                     throw new Exception("Syntax error");
-                }
-                
+                }        
             }
             return result;
         }
