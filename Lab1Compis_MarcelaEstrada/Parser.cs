@@ -17,10 +17,8 @@ namespace Lab1Compis_MarcelaEstrada
             {
                 case TokenType.LParen:
                 case TokenType.Symbol:
-                    return T() + EP();
-
                 case TokenType.Substract:
-                    return -EP()+T();
+                    return T() + EP();
 
                 default:
                     return resultado;
@@ -37,11 +35,30 @@ namespace Lab1Compis_MarcelaEstrada
 
                 case TokenType.Substract:
                     Match(TokenType.Substract);
-                    return T() - EP();
+                    return -T() + EP();
+
+                default:
+                    return 0;
+            }
+        }
+
+        public int inverso()
+        {
+            switch (_token.Tag)
+            {
+                case TokenType.Symbol:
+                    int value = Convert.ToInt32(Convert.ToString(_token.Value));
+                    numero += value;
+                    Match(TokenType.Symbol);
+                    inverso();
+                    value = Convert.ToInt32(numero);
+                    return -value;
 
                 default:
                     return resultado;
+
             }
+            
         }
 
         private int T()
@@ -52,30 +69,50 @@ namespace Lab1Compis_MarcelaEstrada
                 case TokenType.Symbol:
                     int f = F();
                     numero = "";
-                    int tp = TP();
-                    return f + tp;
+                    int tp = TP(f);
+                    if (tp != 0)
+                    {
+                        return tp;
+                    }
+                    else
+                    {
+                        return f + tp;
+                    }
 
                 case TokenType.Substract:
                     Match(TokenType.Substract);
-                    return F() - TP();
-                    //return -F() + TP();
+                    int inver = inverso();
+                    numero = "";
+                    int tp2 = TP(inver);
+                    if (tp2 != 0)
+                    {
+                        return tp2;
+                    }
+                    else
+                    {
+                        return inver + tp2;
+                    }
 
                 default:
                     return resultado;
             }
         }
 
-        private int TP()
+        private int TP(int num)
         {
             switch (_token.Tag)
             {
                 case TokenType.Multiply:
                     Match(TokenType.Multiply);
-                    return F() * TP();
+                    int f = F();
+                    resultado = f * num;
+                    return resultado + TP(f);
 
                 case TokenType.Divide:
                     Match(TokenType.Divide);
-                    return F() / TP();
+                    int g = F();
+                    resultado = num/g;
+                    return resultado + TP(g);
 
                 default:
                     return 0;
@@ -86,11 +123,6 @@ namespace Lab1Compis_MarcelaEstrada
         {
             switch (_token.Tag)
             {
-                //case TokenType.Substract:
-                //    Match(TokenType.Substract);
-                //    int value = Convert.ToInt32(Convert.ToString(_token.Value));
-                //    return F();
-
                 case TokenType.Symbol:
                     int value2 = Convert.ToInt32(Convert.ToString(_token.Value));
                     numero += value2;
@@ -108,7 +140,6 @@ namespace Lab1Compis_MarcelaEstrada
                 default:
                     return resultado;
             }
-            numero = "";
         }
 
         private void Match(TokenType tag)
@@ -127,12 +158,13 @@ namespace Lab1Compis_MarcelaEstrada
         {
             _scanner = new Scanner(regexp + (char)TokenType.EOF);
             _token = _scanner.GetToken();
+            int res = 0;
             switch (_token.Tag)
             {
                 case TokenType.LParen:
                 case TokenType.Symbol:
                 case TokenType.Substract:
-                    resultado = E();
+                    res = E();
                     break;
 
                 default:
@@ -140,7 +172,7 @@ namespace Lab1Compis_MarcelaEstrada
             }
             Match(TokenType.EOF);
 
-            return resultado;
+            return res;
         }
     }
 }

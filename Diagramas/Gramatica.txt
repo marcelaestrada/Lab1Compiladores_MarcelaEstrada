@@ -3,16 +3,16 @@ T ::= F | T*F | T/F
 F ::= -numberF | numberF | (E)
 
 E -> TE'
-First(E) -> First(T) -> {-, number, (}
+First(E) -> First(T) -> {number, (, -}
 
 E' -> +TE' | -TE'
 First(E') -> {+,-}
 
-T -> FT'
-First(T) -> First(F) -> {-, number, (}
+T -> FT' | inversoT'
+First(T) -> First(F) -> {number, (, -}
 
 T' -> *FT' | /FT'
 First(T') -> {*,/}
 
-F -> -numberF' | numberF' | (E)
-First(F) -> {-, number, (}
+F -> numberF' | (E)
+First(F) -> {number, (}

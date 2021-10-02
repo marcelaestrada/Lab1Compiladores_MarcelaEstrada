@@ -26,7 +26,8 @@ namespace Lab1Compis_MarcelaEstrada
 
             string regexp = Console.ReadLine();
             Parser parser = new Parser();
-            parser.Parse(regexp);
+            int resultado = parser.Parse(regexp);
+            Console.WriteLine(resultado);
             Console.WriteLine("Expresión OK");
             Console.ReadLine();
 
