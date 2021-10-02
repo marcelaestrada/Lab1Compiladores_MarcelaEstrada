@@ -8,27 +8,13 @@ namespace Lab1Compis_MarcelaEstrada
         static void Main(string[] args)
         {
 
-            //Console.WriteLine("LABORATORIO 1\nIngrese la expresion algebraica que se desea resolver");
-            //string regex = Console.ReadLine();
-            //Scanner scanner = new Scanner(regex);
-            //Token nextToken;
-
-            ////do
-            ////{
-            ////    nextToken = scanner.GetToken();
-            ////    Console.WriteLine("Token: {0}\nValor: {1} \n", nextToken.Tag, nextToken.Value);
-            ////    if(nextToken.banderaRParen != nextToken.banderaLParen)
-            ////    {
-            ////        throw new Exception("Lex error");
-            ////    }
-            ////} while (nextToken.Tag != TokenType.EOF);
-            ///
-
+            Console.WriteLine("LABORATORIO 1\nIngrese la expresion algebraica que se desea resolver");
             string regexp = Console.ReadLine();
             Parser parser = new Parser();
             int resultado = parser.Parse(regexp);
-            Console.WriteLine(resultado);
-            Console.WriteLine("Expresión OK");
+            Console.Clear();
+            Console.WriteLine("Expresión sin errores");
+            Console.WriteLine(regexp + " = " + resultado);
             Console.ReadLine();
 
         }

@@ -18,27 +18,34 @@ namespace Lab1Compis_MarcelaEstrada
                 case TokenType.LParen:
                 case TokenType.Symbol:
                 case TokenType.Substract:
-                    return T() + EP();
+                    int t = T();
+                    int res = EP(t);
+                    return res;
+
 
                 default:
                     return resultado;
             }
         }
 
-        private int EP()
+        private int EP(int num)
         {
             switch (_token.Tag)
             {
                 case TokenType.Add:
                     Match(TokenType.Add);
-                    return T() + EP();
+                    resultado = num + T();
+                    EP(resultado);
+                    return resultado;
 
                 case TokenType.Substract:
                     Match(TokenType.Substract);
-                    return -T() + EP();
+                    resultado = num - T();
+                    EP(resultado);
+                    return resultado;
 
                 default:
-                    return 0;
+                    return num;
             }
         }
 
@@ -76,7 +83,7 @@ namespace Lab1Compis_MarcelaEstrada
                     }
                     else
                     {
-                        return f + tp;
+                        return f;
                     }
 
                 case TokenType.Substract:
@@ -90,7 +97,7 @@ namespace Lab1Compis_MarcelaEstrada
                     }
                     else
                     {
-                        return inver + tp2;
+                        return inver;
                     }
 
                 default:
@@ -105,14 +112,18 @@ namespace Lab1Compis_MarcelaEstrada
                 case TokenType.Multiply:
                     Match(TokenType.Multiply);
                     int f = F();
+                    numero = "";
                     resultado = f * num;
-                    return resultado + TP(f);
+                    TP(resultado);
+                    return resultado;
 
                 case TokenType.Divide:
                     Match(TokenType.Divide);
                     int g = F();
+                    numero = "";
                     resultado = num/g;
-                    return resultado + TP(g);
+                    TP(resultado);
+                    return resultado;
 
                 default:
                     return 0;
